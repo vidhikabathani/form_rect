@@ -1,23 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from "react";
+import AllRoute from "./AllRoute";
+import Signup from "./pages/Signup";
+import { useNavigate } from "react-router-dom";
 
 function App() {
+  const SignupForm = localStorage.getItem('SignupForm')
+  const login_user=localStorage.getItem('login_user')
+  const navigate = useNavigate()
+  useEffect(()=>{
+    if(SignupForm=="true"){
+      if(login_user){
+        navigate('/home')
+      }
+      else{
+        navigate('/login')
+      }
+    }
+    else{
+      navigate('/')
+    }
+  },[SignupForm])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+    <div>
+      {SignupForm == "true" ? <AllRoute /> : <Signup />}
+
     </div>
   );
 }
