@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 
 function Profile() {
     let name_reg = /^[A-Za-z]*$/
-    let password_reg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[.!#$%&@"'*+/=?|^_~-]).{6,20}$/
     let email_reg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     const _users = localStorage.getItem('user')
     const all_users = JSON.parse(_users);
@@ -37,7 +36,7 @@ function Profile() {
             Ontario: ["Toronto", "Ottawa", "Mississauga", "Oshawa"],
             Quebec: ["Montreal", "Quebec City", "Laval", "Chambly"],
             Alberta: ["Calgary", "Edmonton", "Red Deer", "Taber"],
-        },
+        }
     };
 
     const handleCountryChange = (e) => {
@@ -75,7 +74,7 @@ function Profile() {
                     state: x.state,
                     gender: x.gender,
                     city: x.city,
-                    country:x.country,
+                    country: x.country,
                     isLogin: false
                 }
                 Object.assign(x, user)
@@ -91,39 +90,63 @@ function Profile() {
     const update = (e) => {
         e.preventDefault();
         let update_data = {
-            fname, lname, email, number
+            fname, lname, email, number, select_State, select_city, select_county, gender
         }
-        for (let x of all_users) {
-
-            if (x.isLogin == true) {
-                update_data = {
-                    fname: fname,
-                    lname: lname,
-                    email: email,
-                    number: number,
-                    country:select_county,
-                    password: x.password,
-                    state: select_State,
-                    gender: gender,
-                    city: select_city,
-                    isLogin: true
+        if (!fname) {
+            document.getElementById("fname_er").innerHTML = "name is required*"
+        }
+        if (!lname) {
+            document.getElementById("lname_er").innerHTML = "name is required*"
+        }
+        if (!email) {
+            document.getElementById("email_er").innerHTML = "email is required*"
+        }
+        if (!number) {
+            document.getElementById("number_er").innerHTML = "number is required*"
+        }
+        if (fname.match(name_reg) && lname.match(name_reg) && email.match(email_reg) && number.length > 9 && select_county && select_State && select_city) {
+            update_data = {
+                fname: fname,
+                lname: lname,
+                email: email,
+                number: number,
+                country: select_county,
+                state: select_State,
+                gender: gender,
+                city: select_city,
+                isLogin: true
+            }
+            for (let x of all_users) {
+                if (x.isLogin == true) {
+                    update_data = {
+                        fname: fname,
+                        lname: lname,
+                        email: email,
+                        number: number,
+                        country: select_county,
+                        password: x.password,
+                        state: select_State,
+                        gender: gender,
+                        city: select_city,
+                        isLogin: true
+                    }
+                    Object.assign(x, update_data)
+                    localStorage.setItem('user', JSON.stringify([...all_users]))
+                    localStorage.setItem('login_user', JSON.stringify(update_data))
+                    document.getElementById('btn').removeAttribute("hidden")
+                    document.getElementById('edit_form').setAttribute("hidden", "hidden")
+                    document.getElementById('user_data').removeAttribute("hidden")
+                    alert("profile updated!")
+                    navigate('/profile')
+                    break;
                 }
-                Object.assign(x, update_data)
-                localStorage.setItem('user', JSON.stringify([...all_users]))
-                localStorage.setItem('login_user', JSON.stringify(update_data))
-                document.getElementById('btn').removeAttribute("hidden")
-                document.getElementById('edit_form').setAttribute("hidden", "hidden")
-                document.getElementById('user_data').removeAttribute("hidden")
-                alert("profile updated!")
-                navigate('/profile')
-                break;
             }
         }
     }
 
     const edit_profile = () => {
-        setCities(dropdown_data[select_county][select_State] || []);
         setStates(Object.keys(dropdown_data[select_county] || {}));
+        setCities(dropdown_data[select_county][select_State] || []);
         document.getElementById('user_data').setAttribute("hidden", "hidden")
         document.getElementById('edit_form').removeAttribute("hidden", "hidden")
         document.getElementById('btn').setAttribute("hidden", "hidden")
@@ -176,7 +199,7 @@ function Profile() {
                             <div className='relative'>
                                 <span>Number : </span>
                                 <input type="number" className='mb-5 sm:m-0 focus:outline-none' value={number} onChange={(e) => setNumber(e.target.value)} />
-                                {!number ? <p className='absolute text-sm text-red-500' id='number_er'></p> : email.match(email_reg) ? <p className='absolute text-sm text-green-500'></p> : <p className='absolute text-sm text-red-500'>! invalid address</p>}
+                                {!number ? <p className='absolute text-sm text-red-500' id='number_er'></p> : number.length === 10 ? <p className='absolute text-sm text-green-500'></p> : <p className='absolute text-sm text-red-500'>! Enter 10 Digits of Number</p>}
                             </div>
                             <div className='flex items-center relative'>
                                 <label htmlFor="country" className='me-5'>Country: </label>

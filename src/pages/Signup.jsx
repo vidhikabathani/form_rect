@@ -14,43 +14,97 @@ function Signup() {
     const [password, setPassword] = useState("")
     const [number, setNumber] = useState("")
     const [gender, setGender] = useState("")
-    
-    const [cities, setCities] = useState([]);
-    const [select_city, setSelsect_city] = useState("")
-    const [select_county, setSelect_county] = useState("");
-    const [select_State, setSelect_State] = useState("");
-    const [states, setStates] = useState([])
 
-    const dropdown_data = {
-        India: {
-            Gujarat: ["Ahmedabad", "Surat", "Vadodra", "Rajkot"],
-            Maharashtra: ["Mumbai", "Nagpur", "Nasik", "Pune"],
-            Rajasthan: ["Udaipur", "Ajmer", "Bikaner", "JodhPur"],
-        },
-        USA: {
-            California: ["Los Angeles", "San Francisco", "San Diego", "Fresno"],
-            Texas: ["Houston", "Dallas", "Austin", "Lubbock"],
-            Florida: ["Miami", "Orlando", "Tampa", "Destin"],
-        },
-        Canada: {
-            Ontario: ["Toronto", "Ottawa", "Mississauga", "Oshawa"],
-            Quebec: ["Montreal", "Quebec City", "Laval", "Chambly"],
-            Alberta: ["Calgary", "Edmonton", "Red Deer", "Taber"],
-        },
-    };
+    const [select_city, setSelsect_city] = useState("")
+    const [select_country, setSelect_country] = useState("");
+    const [select_State, setSelect_State] = useState("");
+    const [city_data, setCity_data] = useState([]);
+    const [state_data, setState_data] = useState([])
+
+    const Countries = [
+        { id: 1, c_name: "India" },
+        { id: 2, c_name: "USA" },
+        { id: 3, c_name: "Canada" }
+    ]
+    const States = [
+        { id: 1, s_name: "Gujarat", c_id: 1 },
+        { id: 2, s_name: "Maharashtra", c_id: 1 },
+        { id: 3, s_name: "Rajasthan", c_id: 1 },
+
+        { id: 4, s_name: "California", c_id: 2 },
+        { id: 5, s_name: "Texas", c_id: 2 },
+        { id: 6, s_name: "Florida", c_id: 2 },
+
+        { id: 7, s_name: "Ontario", c_id: 3 },
+        { id: 8, s_name: "Quebec", c_id: 3 },
+        { id: 9, s_name: "Alberta", c_id: 3 }
+    ]
+    const Cities = [
+        { id: 1, city_name: "Ahmedabad", s_id: 1 },
+        { id: 2, city_name: "Surat", s_id: 1 },
+        { id: 3, city_name: "Vadodra", s_id: 1 },
+        { id: 4, city_name: "Rajkot", s_id: 1 },
+
+        { id: 5, city_name: "Mumbai", s_id: 2 },
+        { id: 6, city_name: "Nagpur", s_id: 2 },
+        { id: 7, city_name: "Nasik", s_id: 2 },
+        { id: 8, city_name: "Pune", s_id: 2 },
+
+        { id: 9, city_name: "Udaipur", s_id: 3 },
+        { id: 10, city_name: "Ajmer", s_id: 3 },
+        { id: 11, city_name: "Bikaner", s_id: 3 },
+        { id: 12, city_name: "JodhPur", s_id: 3 },
+
+        { id: 13, city_name: "Los Angeles", s_id: 4 },
+        { id: 14, city_name: "San Francisco", s_id: 4 },
+        { id: 15, city_name: "San Diego", s_id: 4 },
+        { id: 16, city_name: "Fresno", s_id: 4 },
+
+        { id: 17, city_name: "Houston", s_id: 5 },
+        { id: 18, city_name: "Dallas", s_id: 5 },
+        { id: 19, city_name: "Austin", s_id: 5 },
+        { id: 20, city_name: "Lubbock", s_id: 5 },
+
+        { id: 21, city_name: "Miami", s_id: 6 },
+        { id: 22, city_name: "Orlando", s_id: 6 },
+        { id: 23, city_name: "Tampa", s_id: 6 },
+        { id: 24, city_name: "Destin", s_id: 6 },
+
+        { id: 25, city_name: "Toronto", s_id: 7 },
+        { id: 26, city_name: "Ottawa", s_id: 7 },
+        { id: 27, city_name: "Mississauga", s_id: 7 },
+        { id: 28, city_name: "Oshawa", s_id: 7 },
+
+        { id: 29, city_name: "Montreal", s_id: 8 },
+        { id: 30, city_name: "Quebec City", s_id: 8 },
+        { id: 31, city_name: "Laval", s_id: 8 },
+        { id: 32, city_name: "Chambly", s_id: 8 },
+
+        { id: 33, city_name: "Toronto", s_id: 9 },
+        { id: 34, city_name: "Edmonton", s_id: 9 },
+        { id: 35, city_name: "Red Deer", s_id: 9 },
+        { id: 36, city_name: "Taber", s_id: 9 },
+    ]
 
     const handleCountryChange = (e) => {
-        const country = e.target.value;
-        setSelect_county(country);
-        setStates(Object.keys(dropdown_data[country] || {}));
-        setSelect_State("");
-        setCities([]);
+        const country = e.target.value
+        setSelect_country(country);
+        console.log(country);
+        let country_id = Countries.find((c) => c.c_name === country);
+        const filteredStates = States.filter(
+            (state) => state.c_id === parseInt(country_id.id)
+        );
+        setState_data(filteredStates);
     };
 
     const handleStateChange = (e) => {
         const state = e.target.value;
         setSelect_State(state);
-        setCities(dropdown_data[select_county][state] || []);
+        let state_id = States.find((c) => c.s_name === state);
+        const filteredCities = Cities.filter(
+            (state) => state.s_id === parseInt(state_id.id)
+        );
+        setCity_data(filteredCities);
     };
 
     const handlecity = (e) => {
@@ -85,10 +139,10 @@ function Signup() {
         if (select_State && !select_city) {
             document.getElementById("city_er").innerHTML = "city is required*"
         }
-        if (select_county) {
+        if (select_country) {
             document.getElementById("country_er").innerHTML = ""
         }
-        if (!select_county) {
+        if (!select_country) {
             document.getElementById("country_er").innerHTML = "coutry is required*"
         }
         if (select_city) {
@@ -108,7 +162,7 @@ function Signup() {
                 email: email,
                 password: password,
                 number: number,
-                country:select_county,
+                country: select_country,
                 state: select_State,
                 gender: gender,
                 city: select_city,
@@ -181,39 +235,39 @@ function Signup() {
                         </div>
                         <div className='flex items-center relative'>
                             <label htmlFor="country" className='me-5'>Country: </label>
-                            <select id="country" value={select_county} className='w-1/2 py-2 focus:outline-none' onChange={handleCountryChange}>
+                            <select id="country" value={select_country} className='w-1/2 py-2 focus:outline-none' onChange={handleCountryChange}>
                                 <option value="" hidden></option>
-                                {Object.keys(dropdown_data).map((country) => (
-                                    <option key={country} value={country}>
-                                        {country}
+                                {Countries.map((Country) => (
+                                    <option key={Country.id} value={Country.c_name}>
+                                        {Country.c_name}
                                     </option>
                                 ))}
                             </select>
-                                {<p className='absolute top-7 text-sm text-red-500' id='country_er'></p>}
+                            {<p className='absolute top-7 text-sm text-red-500' id='country_er'></p>}
                         </div>
                         <div className="flex gap-5 relative">
                             <div className="flex w-1/2 items-center">
-                            <label htmlFor="state">State: </label>
-                            <select id="state" value={select_State} className='w-full py-2 focus:outline-none' onChange={handleStateChange} disabled={!select_county}>
-                                <option value="" hidden></option>
-                                {states.map((state) => (
-                                    <option key={state} value={state}>
-                                        {state}
-                                    </option>
-                                ))}
-                            </select>
+                                <label htmlFor="state">State: </label>
+                                <select id="state" value={select_State} className='w-full py-2 focus:outline-none' onChange={handleStateChange} disabled={!select_country}>
+                                    <option value="" hidden></option>
+                                    {state_data.map((state) => (
+                                        <option key={state.id} value={state.s_name}>
+                                            {state.s_name}
+                                        </option>
+                                    ))}
+                                </select>
                             </div>
                             <div className="w-1/2 flex items-center">
-                            <label htmlFor="city">City: </label>
-                            <select id="city" disabled={!select_State} className='w-full py-2 focus:outline-none' onChange={handlecity}>
-                                <option value="" hidden></option>
-                                {cities.map((city) => (
-                                    <option key={city} value={city}>
-                                        {city}
-                                    </option>
-                                ))}
-                            </select>
-                                </div>
+                                <label htmlFor="city">City: </label>
+                                <select id="city" disabled={!select_State} className='w-full py-2 focus:outline-none' onChange={handlecity}>
+                                    <option value="" hidden></option>
+                                    {city_data.map((city) => (
+                                        <option key={city.id} value={city.city_name}>
+                                            {city.city_name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
                             {<p className='absolute -bottom-3 text-sm text-red-500' id='city_er'></p>}
                         </div>
                         <div className="flex gap-7 relative">

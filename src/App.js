@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import AllRoute from "./AllRoute";
 import Signup from "./pages/Signup";
 import { useNavigate } from "react-router-dom";
+import Dynamicform from "./pages/Dynamicform";
 
 function App() {
   const SignupForm = localStorage.getItem('SignupForm')
@@ -23,8 +24,8 @@ function App() {
   return (
 
     <div>
-      {SignupForm == "true" ? <AllRoute /> : <Signup />}
-
+      {/* {SignupForm == "true" ? <AllRoute /> : <Signup />} */}
+      <Dynamicform/>
     </div>
   );
 }

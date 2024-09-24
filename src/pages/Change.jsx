@@ -78,13 +78,13 @@ function Change() {
                     <p className='text-2xl font-semibold mb-7'>Change password</p>
                     <div id="old_password" className='space-y-6 relative'>
                         <input type="password" className='w-full py-2 border-b-2 border-slate-800 focus:outline-none' value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Enter current password' />
-                            {!password ? <p className='absolute top-5 text-sm text-red-500' id='password_er'></p> : password.match(password_reg) ? <p className='absolute text-sm text-green-500'>valid password</p> : <p className='absolute text-sm text-red-500'>! Enter valid Password Pattern</p>}
+                            {!password ? <p className='absolute top-5 text-sm text-red-500' id='password_er'></p> : password.match(password_reg) ? <p className='absolute text-sm top-5 text-green-500'>valid password</p> : <p className='absolute top-5 text-sm text-red-500'>! Enter valid Password Pattern</p>}
                         <button className='bg-slate-800 text-white px-10 py-3 mt-7' onClick={check_password}>next</button>
                     </div>
                     <div id="new_password" hidden>
-                        <div className='relative'>
+                        <div className='space-y-6 relative'>
                             <input type="password" className='w-full py-2 border-b-2 border-slate-800 focus:outline-none' placeholder='Enter New password' value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
-                            {!newPassword ? <p className='absolute text-sm text-red-500' id='password_er'></p> : newPassword.match(password_reg) ? <p className='absolute text-sm text-green-500'>valid password</p> : <p className='absolute text-sm text-red-500'>! Enter valid Password Pattern</p>}
+                            {!newPassword ? <p className='absolute top-5 text-sm text-red-500' id='password_er'></p> : newPassword.match(password_reg) ? <p className='absolute top-5 text-sm text-green-500'>valid password</p> : <p className='absolute top-5 text-sm text-red-500'>! Enter valid Password Pattern</p>}
                         </div>
                         <button className='bg-slate-800 text-white px-10 py-3 mt-7' onClick={change_password}>change password</button>
                     </div>
