@@ -4,48 +4,55 @@ import { Link, useNavigate } from 'react-router-dom'
 function Login() {
     const user_data = localStorage.getItem('user')
     const users = JSON.parse(user_data)
-    
+
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [error, setError] = useState({})
     let navigate = useNavigate()
-    let luser = {}
+    let log_user = {}
 
     let password_reg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[.!#$%&@"'*+/=?|^_~-]).{6,20}$/
     let email_reg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     const login_user = (e) => {
+        let isValid = true
+        let newError = {};
         e.preventDefault();
         if (!email) {
-            document.getElementById("email_er").innerHTML = "email is required*"
+            newError.email = "email is required*"
+            isValid = false
         }
         if (!password) {
-            document.getElementById("password_er").innerHTML = "password is required*"
+            newError.password = "password is required*"
+            isValid = false
         }
-        if (password.match(password_reg) && email.match(email_reg)) {
-            luser = {
+
+        setError(newError)
+
+        if (isValid) {
+            log_user = {
                 email: email,
                 password: password
             }
-
             for (let x of users) {
-                if (x.email === luser.email && x.password !== luser.password) {
+                if (x.email === log_user.email && x.password !== log_user.password) {
                     alert("incorrect password!")
                 }
-                if (x.email === luser.email && x.password === luser.password) {
-                    luser = {
+                if (isValid) {
+                    log_user = {
                         email: email,
                         password: password,
                         fname: x.fname,
                         lname: x.lname,
                         number: x.number,
-                        country:x.country,
+                        country: x.country,
                         state: x.state,
                         gender: x.gender,
                         city: x.city,
                         isLogin: true
                     }
-                    Object.assign(x, luser)
+                    Object.assign(x, log_user)
                     localStorage.setItem('user', JSON.stringify([...users]))
-                    localStorage.setItem('login_user', JSON.stringify(luser))
+                    localStorage.setItem('login_user', JSON.stringify(log_user))
                     navigate('/home')
                     alert("login success")
                 }
@@ -61,10 +68,12 @@ function Login() {
                         <p className='text-3xl font-semibold'>Login</p>
                         <div className='relative'>
                             <input placeholder='Email Address' type='email' name='email' value={email} onChange={(e) => setEmail(e.target.value)} className='w-full py-2 border-b-2 border-slate-800 focus:outline-none' />
+                            {<p className='absolute text-sm text-red-500'>{error.email}</p>}
                             {!email ? <p className='absolute text-sm text-red-500' id='email_er'></p> : email.match(email_reg) ? <p className='absolute text-sm text-red-500'></p> : <p className='absolute text-sm text-red-500'>! Enter valid Email Address</p>}
                         </div>
                         <div className='relative'>
                             <input placeholder='Password' type='password' name='password' value={password} onChange={(e) => setPassword(e.target.value)} className='w-full py-2 border-b-2 border-slate-800 focus:outline-none' />
+                            {<p className='absolute text-sm text-red-500'>{error.password}</p>}
                             {!password ? <p className='absolute text-sm text-red-500' id='password_er'></p> : password.match(password_reg) ? <p className='absolute text-sm text-red-500'></p> : <p className='absolute text-sm text-red-500'>! Enter valid Password Pattern</p>}
                         </div>
                         <button onClick={login_user} className='bg-slate-800 text-white px-10 py-3'>Login</button><br />

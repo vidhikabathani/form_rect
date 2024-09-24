@@ -24,8 +24,8 @@ function App() {
   return (
 
     <div>
-      {/* {SignupForm == "true" ? <AllRoute /> : <Signup />} */}
-      <Dynamicform/>
+      {SignupForm == "true" ? <AllRoute /> : <Signup />}
+      {/* <Dynamicform/> */}
     </div>
   );
 }

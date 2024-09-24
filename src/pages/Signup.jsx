@@ -87,24 +87,19 @@ function Signup() {
     ]
 
     const handleCountryChange = (e) => {
-        const country = e.target.value
-        setSelect_country(country);
-        console.log(country);
-        let country_id = Countries.find((c) => c.c_name === country);
-        const filteredStates = States.filter(
-            (state) => state.c_id === parseInt(country_id.id)
-        );
-        setState_data(filteredStates);
+        let country=e.target.value
+        setSelect_country(country)
+        let country_id=Countries.find((e)=>e.c_name===country)
+        let filter_state=States.filter((e)=>e.c_id===country_id.id)
+        setState_data(filter_state);
     };
 
     const handleStateChange = (e) => {
-        const state = e.target.value;
-        setSelect_State(state);
-        let state_id = States.find((c) => c.s_name === state);
-        const filteredCities = Cities.filter(
-            (state) => state.s_id === parseInt(state_id.id)
-        );
-        setCity_data(filteredCities);
+        let state=e.target.value
+        setSelect_State(state)
+        let state_id=States.find((e)=>e.s_name===state)
+        let filter_city=Cities.filter((e)=>e.s_id===state_id.id)
+        setCity_data(filter_city)
     };
 
     const handlecity = (e) => {

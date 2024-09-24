@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 function Dynamicform() {
+
     let saveddata = localStorage.getItem('user');
     const all_users = JSON.parse(saveddata) || [];
     const [forms, setForms] = useState([
@@ -97,22 +98,18 @@ function Dynamicform() {
                             <h2>Form</h2>
                             {form.id === 1 ? <button onClick={addForm} className="bg-slate-800 h-1/2 text-white px-4 py-2">+</button> : <button onClick={() => deleteForm(form.id)} className="bg-slate-800 text-white px-4 py-2">-</button>}
                         </div>
-
                         <div className="relative">
                             <input type="text" name="name" className="w-full py-2 sm:m-0 border-b-2 border-slate-800 focus:outline-none" placeholder="Enter Username" value={form.name} onChange={(e) => inputChange(form.id, e)} />
                             {errors[`name${index}`] && <p className="absolute text-sm text-red-500">{errors[`name${index}`]}</p>}
                         </div>
-
                         <div className="relative">
                             <input type="email" name="email" className="w-full py-2 sm:m-0 border-b-2 border-slate-800 focus:outline-none" placeholder="Enter Email" value={form.email} onChange={(e) => inputChange(form.id, e)} />
                             {errors[`email${index}`] && <p className="absolute text-sm text-red-500">{errors[`email${index}`]}</p>}
                         </div>
-
                         <div>
                             <input type="password" name="password" className="w-full py-2 sm:m-0 border-b-2 border-slate-800 focus:outline-none" placeholder="Enter Password" value={form.password} onChange={(e) => inputChange(form.id, e)} />
                             {errors[`password${index}`] && <p className="absolute text-sm text-red-500">{errors[`password${index}`]}</p>}
                         </div>
-
                         <div>
                             <input type="number" name="number" className="w-full py-2 sm:m-0 border-b-2 border-slate-800 focus:outline-none" placeholder="Enter Number" value={form.number} onChange={(e) => inputChange(form.id, e)} />
                             {errors[`number${index}`] && <p className="absolute text-sm text-red-500">{errors[`number${index}`]}</p>}
