@@ -6,6 +6,7 @@ import Home from './pages/Home'
 import About from './pages/About'
 import Profile from './pages/Profile'
 import Change from './pages/Change'
+import Dynamicform from './pages/Dynamicform'
 
 function AllRoute() {
     return (
@@ -16,6 +17,7 @@ function AllRoute() {
             <Route path="/about" element={<About />}></Route>
             <Route path="/profile" element={<Profile />}></Route>
             <Route path="/change" element={<Change />}></Route>
+            <Route path="/dynamic" element={<Dynamicform />}></Route>
         </Routes></div>
     )
 }
